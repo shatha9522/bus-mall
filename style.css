@@ -1,0 +1,44 @@
+*{
+    box-sizing: border-box;
+}
+
+
+
+.row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+  img {
+    
+    height: auto;
+    vertical-align: middle;
+  }
+
+  .head{
+    font-family: "Sofia", sans-serif;
+    font-size: larger;
+    background-image: url("https://www.wallpapertip.com/wmimgs/79-794169_glitter-background-design-light-url-nice-backgrounds-flower.jpg");
+  width: 500%;
+  height: 200px;
+color: rgb(253, 184, 39);
+  }
+
+
+  #votingSession{
+max-width: 500px;
+margin: 2rem auto;
+border:8px solid black;
+padding:2rem;
+background-color: rgb(232, 234, 230);
+  }
+
+  #submit{
+      text-align: center;
+  }
+  main{
+      background-color: rgb(232, 234, 230);
+  }
