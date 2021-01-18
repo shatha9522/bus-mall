@@ -9,7 +9,6 @@ var firstImageIndex;
 var secImageIndex;
 var thirdImageIndex;
 var userClickCounter = 0;
-var imagesNames = [];
 var votes = [];
 
 function BusMallImage(name, source) {
@@ -18,7 +17,7 @@ function BusMallImage(name, source) {
   this.votes = 0;
   this.view = 0;
   BusMallImage.prototype.allImages.push(this);
-  imagesNames.push(name);
+  
 }
 var votingSessionForm = document.getElementById('votingSession')
 votingSessionForm.addEventListener('submit', submitter);
@@ -110,10 +109,6 @@ function handleUserClick(event) {
     thirdImageElement.removeEventListener('click', handleUserClick);
 
 
-    for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
-      votes.push(BusMallImage.prototype.allImages[i].votes);
-    }
-    chart.config.data.datasets[0].data = votes;
 
 
   }
@@ -146,13 +141,6 @@ function renderRandomImages() {
   thirdImageElement.src = BusMallImage.prototype.allImages[thirdImageIndex].source;
   BusMallImage.prototype.allImages[thirdImageIndex].view++;
 
-  if ((firstImageIndex == !secImageIndex && thirdImageIndex) && (secImageIndex == !thirdImageIndex && firstImageIndex) && (thirdImageIndex == !firstImageIndex && secImageIndex)) {
-    generateRandomIndex();
-  }
-  else {
-
-  }
-
 }
 
 
@@ -161,24 +149,6 @@ function generateRandomIndex() {
 }
 
 
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-  // The type of chart we want to create
-  type: 'line',
 
-  // The data for our dataset
-  data: {
-    labels: imagesNames,
-    datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: votes
-    }]
-  },
-
-  // Configuration options go here
-  options: {}
-});
 
 
