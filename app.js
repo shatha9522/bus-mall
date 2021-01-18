@@ -9,12 +9,16 @@ var firstImageIndex;
 var secImageIndex;
 var thirdImageIndex;
 var userClickCounter = 0;
+var imagesNames = [];
+var votes = [];
+
 function BusMallImage(name, source) {
   this.name = name;
   this.source = source;
   this.votes = 0;
   this.view = 0;
   BusMallImage.prototype.allImages.push(this);
+  imagesNames.push(name);
 }
 var votingSessionForm = document.getElementById('votingSession')
 votingSessionForm.addEventListener('submit', submitter);
@@ -72,7 +76,7 @@ function handleUserClick(event) {
       //userClickCounter++;
     }
 
-    //else if(userAttemptsCounter <= numberOfRound){
+    //else if(userAttemptsCounter <= numberOfRound){h
     if (event.target.id === 'sec-img') {
       BusMallImage.prototype.allImages[secImageIndex].votes++;
       //userClickCounter++;
@@ -94,7 +98,10 @@ function handleUserClick(event) {
     var Result;
     for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
       Result = document.createElement('li');
-      Result.textContent = BusMallImage.prototype.allImages[i].name + '  has ' + BusMallImage.prototype.allImages[i].votes + ' votes' + ', and was seen ' + BusMallImage.prototype.allImages[i].view + 'times'+' the Persantage of times that an item was clicked'+ ((BusMallImage.prototype.allImages[i].votes) *(100))/ BusMallImage.prototype.allImages[i].viwe +'%';
+     // Result.textContent = BusMallImage.prototype.allImages[i].name + '  has ' + BusMallImage.prototype.allImages[i].votes + ' votes' + ', and was seen ' + BusMallImage.prototype.allImages[i].view + 'times' + ' the Persantage of times that an item was clicked' + (BusMallImage.prototype.allImages[i].votes * 100 / BusMallImage.prototype.allImages[i].viwe + '%');
+      Result.textContent = BusMallImage.prototype.allImages[i].name + 'has'+ BusMallImage.prototype.allImages[i].votes + ' votes , and was seen ' +
+        BusMallImage.prototype.allImages[i].view + 'times.' + ' the Persantage of times that an item was clicked : ' + (BusMallImage.prototype.allImages[i].
+          votes * 100 / BusMallImage.prototype.allImages[i].view) + '%';
       resultsList.appendChild(Result);
 
     }
@@ -102,9 +109,24 @@ function handleUserClick(event) {
     secImageElement.removeEventListener('click', handleUserClick);
     thirdImageElement.removeEventListener('click', handleUserClick);
 
+
+    for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
+      votes.push(BusMallImage.prototype.allImages[i].votes);
+    }
+    chart.config.data.datasets[0].data = votes;
+
+
   }
 
 }
+
+
+
+
+
+
+
+
 function renderRandomImages() {
   firstImageIndex = generateRandomIndex();
 
@@ -112,22 +134,51 @@ function renderRandomImages() {
   do {
     secImageIndex = generateRandomIndex();
     thirdImageIndex = generateRandomIndex();
+
   } while (firstImageIndex === secImageIndex || firstImageIndex === thirdImageIndex || thirdImageIndex === secImageIndex);
 
   firstImageElement.src = BusMallImage.prototype.allImages[firstImageIndex].source;
   BusMallImage.prototype.allImages[firstImageIndex].view++;
-  console.log(BusMallImage.prototype.allImages[firstImageIndex].view);
+
   secImageElement.src = BusMallImage.prototype.allImages[secImageIndex].source;
   BusMallImage.prototype.allImages[secImageIndex].view++;
-  console.log(BusMallImage.prototype.allImages[secImageIndex].view);
+
   thirdImageElement.src = BusMallImage.prototype.allImages[thirdImageIndex].source;
   BusMallImage.prototype.allImages[thirdImageIndex].view++;
-  console.log(BusMallImage.prototype.allImages[thirdImageIndex].view);
+
+  if ((firstImageIndex == !secImageIndex && thirdImageIndex) && (secImageIndex == !thirdImageIndex && firstImageIndex) && (thirdImageIndex == !firstImageIndex && secImageIndex)) {
+    generateRandomIndex();
+  }
+  else {
+
+  }
+
 }
+
 
 function generateRandomIndex() {
   return Math.floor(Math.random() * (BusMallImage.prototype.allImages.length));
 }
 
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+  // The type of chart we want to create
+  type: 'line',
+
+  // The data for our dataset
+  data: {
+    labels: imagesNames,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: votes
+    }]
+  },
+
+  // Configuration options go here
+  options: {}
+});
 
 
