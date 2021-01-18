@@ -9,7 +9,10 @@ var firstImageIndex;
 var secImageIndex;
 var thirdImageIndex;
 var userClickCounter = 0;
+<<<<<<< HEAD
 var imagesNames = [];
+=======
+>>>>>>> main
 var votes = [];
 
 function BusMallImage(name, source) {
@@ -18,7 +21,11 @@ function BusMallImage(name, source) {
   this.votes = 0;
   this.view = 0;
   BusMallImage.prototype.allImages.push(this);
+<<<<<<< HEAD
   imagesNames.push(name);
+=======
+  
+>>>>>>> main
 }
 var votingSessionForm = document.getElementById('votingSession')
 votingSessionForm.addEventListener('submit', submitter);
@@ -110,10 +117,13 @@ function handleUserClick(event) {
     thirdImageElement.removeEventListener('click', handleUserClick);
 
 
+<<<<<<< HEAD
     for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
       votes.push(BusMallImage.prototype.allImages[i].votes);
     }
     chart.config.data.datasets[0].data = votes;
+=======
+>>>>>>> main
 
 
   }
@@ -146,6 +156,7 @@ function renderRandomImages() {
   thirdImageElement.src = BusMallImage.prototype.allImages[thirdImageIndex].source;
   BusMallImage.prototype.allImages[thirdImageIndex].view++;
 
+<<<<<<< HEAD
   if ((firstImageIndex == !secImageIndex && thirdImageIndex) && (secImageIndex == !thirdImageIndex && firstImageIndex) && (thirdImageIndex == !firstImageIndex && secImageIndex)) {
     generateRandomIndex();
   }
@@ -153,6 +164,8 @@ function renderRandomImages() {
 
   }
 
+=======
+>>>>>>> main
 }
 
 
@@ -180,4 +193,6 @@ var chart = new Chart(ctx, {
   // Configuration options go here
   options: {}
 });
+
+
 
