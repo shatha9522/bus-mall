@@ -13,9 +13,10 @@
     padding: 5px;
   }
   img {
-    
-    height: auto;
+    width: 200px;
+    height: 300px;
     vertical-align: middle;
+    border: solid rgb(253, 184, 39);
   }
 
   .head{
@@ -42,3 +43,7 @@ background-color: rgb(232, 234, 230);
   main{
       background-color: rgb(232, 234, 230);
   }
+ul{
+  font-size: medium;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
