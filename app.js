@@ -5,13 +5,18 @@ var thirdImageElement = document.getElementById('third-img');
 var numberOfRound = 25;
 var userAttemptsCounter = 0;
 
-var firstImageIndex;
-var secImageIndex;
-var thirdImageIndex;
-var userClickCounter = 0;
+var firstImageIndex=-1;
+var secImageIndex=-1;
+var thirdImageIndex=-1;
+
+//var previousFirstImageIndex=-1;
+//var previousSecImageIndex=-1;
+//var previousThirdImageIndex=-1;
+
+//var userClickCounter = 0;
 var imagesNames = [];
 var votes = [];
-
+var view =[];
 function BusMallImage(name, source) {
   this.name = name;
   this.source = source;
@@ -70,9 +75,9 @@ secImageElement.addEventListener('click', handleUserClick);
 thirdImageElement.addEventListener('click', handleUserClick);
 
 function handleUserClick(event) {
-  userAttemptsCounter++;
+ // userAttemptsCounter++;
 
-  if (userAttemptsCounter <= numberOfRound) {
+  if (userAttemptsCounter < numberOfRound) {
     if (event.target.id === 'first-img') {
       BusMallImage.prototype.allImages[firstImageIndex].votes++;
       userAttemptsCounter++;
@@ -115,48 +120,51 @@ function handleUserClick(event) {
 
     for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
       votes.push(BusMallImage.prototype.allImages[i].votes);
+      view.push(BusMallImage.prototype.allImages[i].view);
+
     }
     chart.config.data.datasets[0].data = votes;
-
+    chart.config.data.datasets[1].data = view;
 
 
   }
 
 }
 
-
-
-
-
-
-
-
 function renderRandomImages() {
-  firstImageIndex = generateRandomIndex();
+  var previousIndex=[firstImageIndex,secImageIndex,thirdImageIndex]
 
 
   do {
-    secImageIndex = generateRandomIndex();
-    thirdImageIndex = generateRandomIndex();
+    firstImageIndex = generateRandomIndex();
+  }
+     while (previousIndex.includes(firstImageIndex));
 
-  } while (firstImageIndex === secImageIndex || firstImageIndex === thirdImageIndex || thirdImageIndex === secImageIndex);
-
+previousIndex.push(firstImageIndex);
   firstImageElement.src = BusMallImage.prototype.allImages[firstImageIndex].source;
   BusMallImage.prototype.allImages[firstImageIndex].view++;
+  do {
+    secImageIndex = generateRandomIndex();
+  }
+     while (previousIndex.includes(secImageIndex));
+
+previousIndex.push(secImageIndex);
 
   secImageElement.src = BusMallImage.prototype.allImages[secImageIndex].source;
   BusMallImage.prototype.allImages[secImageIndex].view++;
 
+  do {
+    thirdImageIndex = generateRandomIndex();
+  }
+     while (previousIndex.includes(thirdImageIndex));
+
+previousIndex.push(thirdImageIndex);
   thirdImageElement.src = BusMallImage.prototype.allImages[thirdImageIndex].source;
   BusMallImage.prototype.allImages[thirdImageIndex].view++;
-  if ((firstImageIndex == !secImageIndex && thirdImageIndex) && (secImageIndex == !thirdImageIndex && firstImageIndex) && (thirdImageIndex == !firstImageIndex && secImageIndex)) {
-    generateRandomIndex();
-  }
-  else {
-
-  }
+  console.log(firstImageIndex,secImageIndex,thirdImageIndex);
 }
 
+  
 
 function generateRandomIndex() {
   return Math.floor(Math.random() * (BusMallImage.prototype.allImages.length));
@@ -166,21 +174,29 @@ function generateRandomIndex() {
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
   // The type of chart we want to create
-  type: 'line',
+  type: 'bar',
 
   // The data for our dataset
   data: {
     labels: imagesNames,
     datasets: [{
-      label: 'My First dataset',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: votes
-    }]
+      label: 'Votes',
+      backgroundColor: ' rgb(253, 184, 39)',
+      borderColor: ' rgb(253, 184, 39)',
+      data: votes      
+    },{label: 'Viwe',
+    backgroundColor: 'black',
+    borderColor: 'black',
+    data: view      }]
+    
   },
 
   // Configuration options go here
   options: {}
+  
+
+
+  
 });
 
 
