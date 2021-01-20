@@ -8,6 +8,7 @@ var userAttemptsCounter = 0;
 var firstImageIndex=-1;
 var secImageIndex=-1;
 var thirdImageIndex=-1;
+var chart;
 
 //var previousFirstImageIndex=-1;
 //var previousSecImageIndex=-1;
@@ -17,6 +18,9 @@ var thirdImageIndex=-1;
 var imagesNames = [];
 var votes = [];
 var view =[];
+var localArray=[];
+var resultsList = document.getElementById('results-list');
+var Result;
 function BusMallImage(name, source) {
   this.name = name;
   this.source = source;
@@ -24,8 +28,9 @@ function BusMallImage(name, source) {
   this.view = 0;
   BusMallImage.prototype.allImages.push(this);
   imagesNames.push(name);
-  
-
+  //votes.push (votes);
+  //view.push (view);
+  localArray.push(this);
 }
 var votingSessionForm = document.getElementById('votingSession')
 votingSessionForm.addEventListener('submit', submitter);
@@ -39,6 +44,7 @@ function submitter(event) {
 
 
 BusMallImage.prototype.allImages = [];
+
 new BusMallImage('bag', 'img/bag.jpg');
 new BusMallImage('banana', 'img/banana.jpg');
 new BusMallImage('bathroom', 'img/bathroom.jpg');
@@ -60,6 +66,7 @@ new BusMallImage('usb', 'img/usb.gif');
 new BusMallImage('water-can', 'img/water-can.jpg');
 new BusMallImage('wine-glass', 'img/wine-glass.jpg');
 
+arrayStorage()
 renderRandomImages();
 
 firstImageElement.addEventListener('click', handleUserClick);
@@ -98,25 +105,17 @@ function handleUserClick(event) {
 
     }
     renderRandomImages();
-
+    arrayStorage()
   } else {
-    // handle end of voting
-    var resultsList = document.getElementById('results-list');
-    var Result;
-    for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
-      Result = document.createElement('li');
-     // Result.textContent = BusMallImage.prototype.allImages[i].name + '  has ' + BusMallImage.prototype.allImages[i].votes + ' votes' + ', and was seen ' + BusMallImage.prototype.allImages[i].view + 'times' + ' the Persantage of times that an item was clicked' + (BusMallImage.prototype.allImages[i].votes * 100 / BusMallImage.prototype.allImages[i].viwe + '%');
-      Result.textContent = BusMallImage.prototype.allImages[i].name + 'has'+ BusMallImage.prototype.allImages[i].votes + ' votes , and was seen ' +
-        BusMallImage.prototype.allImages[i].view + 'times.' + ' the Persantage of times that an item was clicked : ' + (BusMallImage.prototype.allImages[i].
-          votes * 100 / BusMallImage.prototype.allImages[i].view) + '%';
-      resultsList.appendChild(Result);
+    document.getElementById("showResult").style.visibility = "visible";
+    var result = document.getElementById("result");
+    result.addEventListener("submit", renderList);
 
-    }
     firstImageElement.removeEventListener('click', handleUserClick);
     secImageElement.removeEventListener('click', handleUserClick);
     thirdImageElement.removeEventListener('click', handleUserClick);
 
-
+  }
 
     for (var i = 0; i < BusMallImage.prototype.allImages.length; i++) {
       votes.push(BusMallImage.prototype.allImages[i].votes);
@@ -126,10 +125,13 @@ function handleUserClick(event) {
     chart.config.data.datasets[0].data = votes;
     chart.config.data.datasets[1].data = view;
 
-
-  }
-
+//renderList();
+  
 }
+
+
+
+
 
 function renderRandomImages() {
   var previousIndex=[firstImageIndex,secImageIndex,thirdImageIndex]
@@ -170,9 +172,41 @@ function generateRandomIndex() {
   return Math.floor(Math.random() * (BusMallImage.prototype.allImages.length));
 }
 
+function arrayStorage(){
+  console.log( BusMallImage.prototype.allImages)
+  var storage =JSON.stringify( BusMallImage.prototype.allImages);
+  localStorage.setItem('storage',storage);
 
+}
+function getData(){
+  var list=localStorage.getItem('storage');
+  var jsList=JSON.parse(list);
+  if(jsList){
+    BusMallImage.prototype.allImages=jsList;   
+  }
+//renderList();
+
+}
+
+getData();
+
+
+
+
+
+
+function renderList(event){
+event.preventDefault();
+for (var i = 0; i < BusMallImage.prototype.allImages.length; i++){
+  Result = document.createElement('li');
+  Result.textContent = BusMallImage.prototype.allImages[i].name + 'has'+ BusMallImage.prototype.allImages[i].votes + ' votes , and was seen ' +
+BusMallImage.prototype.allImages[i].view + 'times.' + ' the Persantage of times that an item was clicked : ' + (BusMallImage.prototype.allImages[i].
+  votes * 100 / BusMallImage.prototype.allImages[i].view) + '%';
+resultsList.appendChild(Result);
+
+}
 var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
+ chart = new Chart(ctx, {
   // The type of chart we want to create
   type: 'bar',
 
@@ -198,6 +232,4 @@ var chart = new Chart(ctx, {
 
   
 });
-
-
-
+}
