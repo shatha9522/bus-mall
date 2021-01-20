@@ -1,9 +1,20 @@
-*{
-    box-sizing: border-box;
+body{
+  margin: 0px;
 }
-
-
-
+#images{
+  margin:10px 250px;
+}
+#images img{
+  display: inline-block;
+  margin-left: 10px;
+  border: solid rgb(253, 184, 39);
+}
+h1{
+  margin-top: 0px;
+  text-align: center;
+  height:200px ;
+  padding-top: 70px;
+}
 .row {
     display: flex;
   }
@@ -12,18 +23,19 @@
     flex: 33.33%;
     padding: 5px;
   }
-  img {
+/*   img {
     width: 200px;
     height: 300px;
     vertical-align: middle;
+
     border: solid rgb(253, 184, 39);
-  }
+  } */
 
   .head{
     font-family: "Sofia", sans-serif;
     font-size: larger;
     background-image: url("https://www.wallpapertip.com/wmimgs/79-794169_glitter-background-design-light-url-nice-backgrounds-flower.jpg");
-  width: 500%;
+  width :100%;
   height: 200px;
 color: rgb(253, 184, 39);
   }
@@ -46,4 +58,7 @@ background-color: rgb(232, 234, 230);
 ul{
   font-size: medium;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#showResult{
+  visibility: hidden;
 }
